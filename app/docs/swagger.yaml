@@ -1,3 +1,27 @@
+definitions:
+  user.TransferMoneyDTO:
+    properties:
+      amount:
+        type: integer
+      from:
+        type: integer
+      to:
+        type: integer
+    type: object
+  user.UserChargeMoneyDTO:
+    properties:
+      amount:
+        type: integer
+      id:
+        type: integer
+    type: object
+  user.UserRemoveMoneyDTO:
+    properties:
+      amount:
+        type: integer
+      id:
+        type: integer
+    type: object
 info:
   contact: {}
 paths:
@@ -6,6 +30,13 @@ paths:
       consumes:
       - application/json
       description: add certain amount of money to user
+      parameters:
+      - description: Charge money
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserChargeMoneyDTO'
       produces:
       - application/json
       responses:
@@ -13,6 +44,10 @@ paths:
           description: Created
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
+        "418":
+          description: I'm a teapot
         "500":
           description: Internal Server Error
       summary: Charge balance
@@ -21,6 +56,13 @@ paths:
       consumes:
       - application/json
       description: remove certain amount of user`s money
+      parameters:
+      - description: Remove money
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserRemoveMoneyDTO'
       produces:
       - application/json
       responses:
@@ -28,14 +70,25 @@ paths:
           description: Created
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
+        "418":
+          description: I'm a teapot
         "500":
           description: Internal Server Error
       summary: Decrease user balance
   /api/v1/transfer:
-    get:
+    post:
       consumes:
       - application/json
       description: transfer money from one user to another
+      parameters:
+      - description: Remove money
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/user.TransferMoneyDTO'
       produces:
       - application/json
       responses:
@@ -43,6 +96,10 @@ paths:
           description: OK
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
+        "418":
+          description: I'm a teapot
         "500":
           description: Internal Server Error
       summary: Transfer Money
@@ -54,20 +111,37 @@ paths:
       responses:
         "201":
           description: Created
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "418":
+          description: I'm a teapot
         "500":
           description: Internal Server Error
       summary: Create user
-  /users/:id:
+  /users/{id}:
     get:
-      description: Get user by id
+      description: Get user balance by id
+      parameters:
+      - description: User id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
+      - application/json
       - application/json
       responses:
         "201":
           description: Created
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
+        "418":
+          description: I'm a teapot
         "500":
           description: Internal Server Error
-      summary: Get user
+      summary: Get user balance
 swagger: "2.0"

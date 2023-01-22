@@ -26,12 +26,29 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "summary": "Charge balance",
+                "parameters": [
+                    {
+                        "description": "Charge money",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UserChargeMoneyDTO"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created"
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "418": {
+                        "description": "I'm a teapot"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -49,12 +66,29 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "summary": "Decrease user balance",
+                "parameters": [
+                    {
+                        "description": "Remove money",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UserRemoveMoneyDTO"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created"
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "418": {
+                        "description": "I'm a teapot"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -63,7 +97,7 @@ const docTemplate = `{
             }
         },
         "/api/v1/transfer": {
-            "get": {
+            "post": {
                 "description": "transfer money from one user to another",
                 "consumes": [
                     "application/json"
@@ -72,12 +106,29 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "summary": "Transfer Money",
+                "parameters": [
+                    {
+                        "description": "Remove money",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.TransferMoneyDTO"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "418": {
+                        "description": "I'm a teapot"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -96,19 +147,38 @@ const docTemplate = `{
                     "201": {
                         "description": "Created"
                     },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "418": {
+                        "description": "I'm a teapot"
+                    },
                     "500": {
                         "description": "Internal Server Error"
                     }
                 }
             }
         },
-        "/users/:id": {
+        "/users/{id}": {
             "get": {
-                "description": "Get user by id",
+                "description": "Get user balance by id",
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
-                "summary": "Get user",
+                "summary": "Get user balance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created"
@@ -116,9 +186,53 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request"
                     },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "418": {
+                        "description": "I'm a teapot"
+                    },
                     "500": {
                         "description": "Internal Server Error"
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "user.TransferMoneyDTO": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "integer"
+                },
+                "to": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.UserChargeMoneyDTO": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.UserRemoveMoneyDTO": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
                 }
             }
         }
