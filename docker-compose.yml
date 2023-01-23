@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "go_app"
+    restart: on-failure
+    environment:
+      - HTTP-IP=0.0.0.0
+      - HTTP-PORT=30001
+      - PSQL_USERNAME=postgres
+      - PSQL_PASSWORD=postgres
+      - PSQL_HOST=db
+      - PSQL_PORT=5432
+      - PSQL_DATABASE=postgres
+    tty: true
+    depends_on:
+      - db
+    networks:
+      - app_network
+    ports:
+      - "30001:30001"
+  db:
+    image: postgres
+    restart: always
+    container_name: "postgres_db"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432/tcp"
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - app_network
+volumes:
+  data:
+networks:
+  app_network:
+    driver: bridge

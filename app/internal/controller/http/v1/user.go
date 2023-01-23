@@ -15,6 +15,7 @@ import (
 )
 
 // TODO: Docker compose
+// TODO: Unit Tests
 
 type Service interface {
 	CreateUser(ctx context.Context) (int, error)

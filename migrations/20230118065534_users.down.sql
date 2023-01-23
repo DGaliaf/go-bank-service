@@ -1,1 +1,1 @@
-DROP TABLE public.user CASCADE;
+DROP TABLE IF EXISTS public.user CASCADE;

@@ -33,7 +33,7 @@ var once sync.Once
 
 func GetConfig() *Config {
 	once.Do(func() {
-		flag.StringVar(&configPath, FlagConfigPathName, "configs/config.local.yaml", "this is app config file")
+		flag.StringVar(&configPath, FlagConfigPathName, "configs/configs.local.yaml", "this is app config file")
 		flag.Parse()
 
 		log.Print("config init")
@@ -49,9 +49,15 @@ func GetConfig() *Config {
 		instance = &Config{}
 
 		if err := cleanenv.ReadConfig(configPath, instance); err != nil {
-			help, _ := cleanenv.GetDescription(instance, nil)
-			log.Print(help)
-			log.Fatal(err)
+			log.Println("Cant`t read environment variables from neither .yaml nor .env")
+			log.Println(err)
+
+			err := cleanenv.ReadEnv(instance)
+			if err != nil {
+				help, _ := cleanenv.GetDescription(instance, nil)
+				log.Println(help)
+				log.Fatalln(err)
+			}
 		}
 	})
 	return instance
