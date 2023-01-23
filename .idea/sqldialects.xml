@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/app/adapters/db/postgresql/user.go" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/migrations/20230118065534_users.down.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/migrations/20230118065534_users.up.sql" dialect="PostgreSQL" />
-    <file url="PROJECT" dialect="PostgreSQL" />
-  </component>
-</project>
