@@ -38,9 +38,9 @@ definitions:
 host: localhost:30001
 info:
   contact: {}
-  description: This is a sample messenger service.
+  description: This is a sample banking service.
   title: Swagger Example API
-  version: "1.0"
+  version: "1.1"
 paths:
   /api/v1/charge/:
     post:
@@ -96,6 +96,8 @@ paths:
         "500":
           description: Internal Server Error
       summary: Decrease user balance
+      tags:
+      - user
   /api/v1/transfer/:
     post:
       consumes:
