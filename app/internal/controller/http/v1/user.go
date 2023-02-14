@@ -83,7 +83,7 @@ func (u UserHandler) createUser(w http.ResponseWriter, r *http.Request) error {
 // @Produce      json
 // @Tags		user
 // @Param		id	path int true "User ID"
-// @Success      201 {object} entity.User
+// @Success      200 {object} entity.User
 // @Failure      500
 // @Failure      404
 // @Failure      400
@@ -119,7 +119,7 @@ func (u UserHandler) getUser(w http.ResponseWriter, r *http.Request) error {
 // @Tags user
 // @Produce      json
 // @Param		message body user.UserChargeMoneyDTO true "Charge money"
-// @Success      201
+// @Success      200
 // @Failure      400
 // @Failure      404
 // @Failure      500
@@ -154,7 +154,7 @@ func (u UserHandler) chargeUserBalance(w http.ResponseWriter, r *http.Request) e
 // @Tags		user
 // @Produce      json
 // @Param		message body user.UserRemoveMoneyDTO true "Remove money"
-// @Success      201
+// @Success      200
 // @Failure      400
 // @Failure      404
 // @Failure      418

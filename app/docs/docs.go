@@ -41,8 +41,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created"
+                    "200": {
+                        "description": "OK"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -84,8 +84,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created"
+                    "200": {
+                        "description": "OK"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -197,8 +197,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entity.User"
                         }
