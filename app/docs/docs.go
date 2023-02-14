@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/charge": {
+        "/api/v1/charge/": {
             "post": {
                 "description": "add certain amount of money to user",
                 "consumes": [
@@ -24,6 +24,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "user"
                 ],
                 "summary": "Charge balance",
                 "parameters": [
@@ -56,7 +59,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/remove": {
+        "/api/v1/remove/": {
             "post": {
                 "description": "remove certain amount of user` + "`" + `s money",
                 "consumes": [
@@ -96,7 +99,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/transfer": {
+        "/api/v1/transfer/": {
             "post": {
                 "description": "transfer money from one user to another",
                 "consumes": [
@@ -104,6 +107,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "user"
                 ],
                 "summary": "Transfer Money",
                 "parameters": [
@@ -113,7 +119,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.TransferMoneyDTO"
+                            "$ref": "#/definitions/dto.TransferMoneyDTO"
                         }
                     }
                 ],
@@ -136,16 +142,22 @@ const docTemplate = `{
                 }
             }
         },
-        "/users": {
+        "/users/": {
             "post": {
                 "description": "Create user with default values",
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "user"
+                ],
                 "summary": "Create user",
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ShowUserIdDTO"
+                        }
                     },
                     "400": {
                         "description": "Bad Request"
@@ -162,18 +174,20 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{id}": {
+        "/users/{id}/": {
             "get": {
                 "description": "Get user balance by id",
                 "produces": [
-                    "application/json",
                     "application/json"
+                ],
+                "tags": [
+                    "user"
                 ],
                 "summary": "Get user balance",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User id",
+                        "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -181,7 +195,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
                     },
                     "400": {
                         "description": "Bad Request"
@@ -200,7 +217,15 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "user.TransferMoneyDTO": {
+        "dto.ShowUserIdDTO": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.TransferMoneyDTO": {
             "type": "object",
             "properties": {
                 "amount": {
@@ -210,6 +235,17 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "to": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "integer"
+                },
+                "id": {
                     "type": "integer"
                 }
             }
@@ -241,12 +277,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:30001",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Swagger Example API",
+	Description:      "This is a sample messenger service.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

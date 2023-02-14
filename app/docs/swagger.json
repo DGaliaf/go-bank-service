@@ -1,10 +1,15 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "This is a sample messenger service.",
+        "title": "Swagger Example API",
+        "contact": {},
+        "version": "1.0"
     },
+    "host": "localhost:30001",
+    "basePath": "/",
     "paths": {
-        "/api/v1/charge": {
+        "/api/v1/charge/": {
             "post": {
                 "description": "add certain amount of money to user",
                 "consumes": [
@@ -12,6 +17,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "user"
                 ],
                 "summary": "Charge balance",
                 "parameters": [
@@ -44,7 +52,7 @@
                 }
             }
         },
-        "/api/v1/remove": {
+        "/api/v1/remove/": {
             "post": {
                 "description": "remove certain amount of user`s money",
                 "consumes": [
@@ -84,7 +92,7 @@
                 }
             }
         },
-        "/api/v1/transfer": {
+        "/api/v1/transfer/": {
             "post": {
                 "description": "transfer money from one user to another",
                 "consumes": [
@@ -92,6 +100,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "user"
                 ],
                 "summary": "Transfer Money",
                 "parameters": [
@@ -101,7 +112,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.TransferMoneyDTO"
+                            "$ref": "#/definitions/dto.TransferMoneyDTO"
                         }
                     }
                 ],
@@ -124,16 +135,22 @@
                 }
             }
         },
-        "/users": {
+        "/users/": {
             "post": {
                 "description": "Create user with default values",
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "user"
+                ],
                 "summary": "Create user",
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ShowUserIdDTO"
+                        }
                     },
                     "400": {
                         "description": "Bad Request"
@@ -150,18 +167,20 @@
                 }
             }
         },
-        "/users/{id}": {
+        "/users/{id}/": {
             "get": {
                 "description": "Get user balance by id",
                 "produces": [
-                    "application/json",
                     "application/json"
+                ],
+                "tags": [
+                    "user"
                 ],
                 "summary": "Get user balance",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User id",
+                        "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -169,7 +188,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
                     },
                     "400": {
                         "description": "Bad Request"
@@ -188,7 +210,15 @@
         }
     },
     "definitions": {
-        "user.TransferMoneyDTO": {
+        "dto.ShowUserIdDTO": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.TransferMoneyDTO": {
             "type": "object",
             "properties": {
                 "amount": {
@@ -198,6 +228,17 @@
                     "type": "integer"
                 },
                 "to": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "integer"
+                },
+                "id": {
                     "type": "integer"
                 }
             }

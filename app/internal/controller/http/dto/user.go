@@ -1,5 +1,9 @@
 package dto
 
+type ShowUserIdDTO struct {
+	UserID int `json:"user_id"`
+}
+
 type UserChargeMoneyDTO struct {
 	Id     int `json:"id"`
 	Amount int `json:"amount"`

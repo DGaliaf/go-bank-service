@@ -14,9 +14,6 @@ import (
 	"strconv"
 )
 
-// TODO: Docker compose
-// TODO: Unit Tests
-
 type Service interface {
 	CreateUser(ctx context.Context) (int, error)
 	FindUserById(ctx context.Context, id int) (*entity.User, error)
@@ -49,29 +46,28 @@ func (u UserHandler) Register(router *httprouter.Router) {
 	router.HandlerFunc(http.MethodPost, transfer, custom_error.Middleware(u.transferMoney))
 }
 
-// Create user
+// Create user godoc
 // @Summary      Create user
 // @Description  Create user with default values
 // @Produce      json
-// @Success      201
+// @Tags		user
+// @Success      201 {object} dto.ShowUserIdDTO
 // @Failure      400
 // @Failure      404
 // @Failure      418
 // @Failure      500
-// @Router       /users [post]
+// @Router       /users/ [post]
 func (u UserHandler) createUser(w http.ResponseWriter, r *http.Request) error {
-	w.Header().Set("Accept", "application/json")
-
 	userId, err := u.service.CreateUser(r.Context())
 	if err != nil {
 		return err
 	}
 
-	resp := map[string]int{
-		"user_id": userId,
+	resp := dto.ShowUserIdDTO{
+		UserID: userId,
 	}
 
-	marshalJson, err := json.Marshal(resp)
+	marshalJson, err := json.Marshal(&resp)
 	if err != nil {
 		return errors.New("failed to marshal")
 	}
@@ -81,20 +77,19 @@ func (u UserHandler) createUser(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-// Get user balance
+// Get user balance godoc
 // @Summary      Get user balance
 // @Description  Get user balance by id
 // @Produce      json
-// @Produce      json
-// @Param		id	path int true "User id"
-// @Success      201
+// @Tags		user
+// @Param		id	path int true "User ID"
+// @Success      201 {object} entity.User
 // @Failure      500
 // @Failure      404
 // @Failure      400
 // @Failure      418
-// @Router       /users/{id} [get]
+// @Router       /users/{id}/ [get]
 func (u UserHandler) getUser(w http.ResponseWriter, r *http.Request) error {
-	w.Header().Set("Accept", "application/json")
 	params := httprouter.ParamsFromContext(r.Context())
 
 	userId, err := strconv.Atoi(params.ByName("id"))
@@ -117,10 +112,11 @@ func (u UserHandler) getUser(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-// Charge user balance
+// Charge user balance godoc
 // @Summary      Charge balance
 // @Description  add certain amount of money to user
 // @Accept       json
+// @Tags user
 // @Produce      json
 // @Param		message body user.UserChargeMoneyDTO true "Charge money"
 // @Success      201
@@ -128,7 +124,7 @@ func (u UserHandler) getUser(w http.ResponseWriter, r *http.Request) error {
 // @Failure      404
 // @Failure      500
 // @Failure      418
-// @Router       /api/v1/charge [post]
+// @Router       /api/v1/charge/ [post]
 func (u UserHandler) chargeUserBalance(w http.ResponseWriter, r *http.Request) error {
 	defer r.Body.Close()
 
@@ -151,7 +147,7 @@ func (u UserHandler) chargeUserBalance(w http.ResponseWriter, r *http.Request) e
 	return nil
 }
 
-// Decrease user balance
+// Decrease user balance godoc
 // @Summary      Decrease user balance
 // @Description  remove certain amount of user`s money
 // @Accept       json
@@ -162,7 +158,7 @@ func (u UserHandler) chargeUserBalance(w http.ResponseWriter, r *http.Request) e
 // @Failure      404
 // @Failure      418
 // @Failure      500
-// @Router       /api/v1/remove [post]
+// @Router       /api/v1/remove/ [post]
 func (u UserHandler) removeUserBalance(w http.ResponseWriter, r *http.Request) error {
 	defer r.Body.Close()
 
@@ -185,18 +181,19 @@ func (u UserHandler) removeUserBalance(w http.ResponseWriter, r *http.Request) e
 	return nil
 }
 
-// Transfer Money
+// Transfer Money godoc
 // @Summary      Transfer Money
 // @Description  transfer money from one user to another
 // @Accept       json
+// @Tags user
 // @Produce      json
-// @Param		message body user.TransferMoneyDTO true "Remove money"
+// @Param		message body dto.TransferMoneyDTO true "Remove money"
 // @Success      200
 // @Failure      400
 // @Failure      404
 // @Failure      418
 // @Failure      500
-// @Router       /api/v1/transfer [post]
+// @Router       /api/v1/transfer/ [post]
 func (u UserHandler) transferMoney(w http.ResponseWriter, r *http.Request) error {
 	defer r.Body.Close()
 
