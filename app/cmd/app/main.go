@@ -8,8 +8,8 @@ import (
 )
 
 // @title           Swagger Example API
-// @version         1.0
-// @description     This is a sample messenger service.
+// @version         1.1
+// @description     This is a sample banking service.
 
 // @host      localhost:30001
 // @BasePath  /

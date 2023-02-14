@@ -151,6 +151,7 @@ func (u UserHandler) chargeUserBalance(w http.ResponseWriter, r *http.Request) e
 // @Summary      Decrease user balance
 // @Description  remove certain amount of user`s money
 // @Accept       json
+// @Tags		user
 // @Produce      json
 // @Param		message body user.UserRemoveMoneyDTO true "Remove money"
 // @Success      201
@@ -185,7 +186,7 @@ func (u UserHandler) removeUserBalance(w http.ResponseWriter, r *http.Request) e
 // @Summary      Transfer Money
 // @Description  transfer money from one user to another
 // @Accept       json
-// @Tags user
+// @Tags 		 user
 // @Produce      json
 // @Param		message body dto.TransferMoneyDTO true "Remove money"
 // @Success      200
